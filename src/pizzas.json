@@ -1,0 +1,22 @@
+ [
+   {
+     "name": "Napoletana",
+     "description": "Napoletana pizza",
+     "price": 25
+  },
+   {
+     "name": "Marinara",
+     "description": "Marinara pizza",
+     "price": 17
+  },
+   {
+     "name": "Caprese",
+     "description": "Caprese pizza",
+     "price": 33
+  },
+   {
+     "name": "Margarita",
+     "description": "Margarita pizza",
+     "price": 45
+  }
+ ]
