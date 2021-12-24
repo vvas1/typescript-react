@@ -1,0 +1,44 @@
+.cart {
+    display: flex;
+    justify-content: stretch;
+    flex-direction: column;
+    margin-bottom: 1rem;
+    position: relative;
+}
+.cart-list {
+    margin-top: .5rem;
+    position: absolute;
+    background-color: white;
+    left: -15px;
+}
+.cart-list,
+.cart-button {
+    border-radius: 5px;
+}
+.cart-button-active {
+    background-color: red;
+    color: white;
+}
+.cart-button {
+    background: transparent;
+    cursor: pointer;
+}
+.list-item:hover {
+    background-color: #d0f0c0;
+    cursor: pointer;
+}
+.show {
+    display: block;
+}
+.hide {
+    display: none;
+}
+.list-item,
+.cart-button,
+.cart-list {
+    padding: .5rem;
+}
+.cart-list,
+.cart-button{
+    border: 1px solid;
+}
