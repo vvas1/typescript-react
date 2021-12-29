@@ -44,3 +44,9 @@
 .cart-button{
     border: 1px solid;
 }
+.not-allowed {
+    cursor: not-allowed;
+}
+.allowed {
+    cursor: pointer;
+}
