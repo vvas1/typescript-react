@@ -6,10 +6,11 @@
     position: relative;
 }
 .cart-list {
+    width: max-content;
     margin-top: .5rem;
     position: absolute;
     background-color: white;
-    left: -15px;
+    left: -50%;
 }
 .cart-list,
 .cart-button {
@@ -17,6 +18,7 @@
 }
 .cart-button-active {
     background-color: red;
+    border: 1px solid red;
     color: white;
 }
 .cart-button {
