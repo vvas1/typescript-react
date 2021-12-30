@@ -41,6 +41,7 @@ const reducer = (state: AppStateValue, action: AddToCartAction) => {
       }
     }
   }
+  return state
 }
 export const useStateDispatch = () => {
   const dispatch  = useContext(AppDispatchContext);
