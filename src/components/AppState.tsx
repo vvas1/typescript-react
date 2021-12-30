@@ -1,7 +1,10 @@
-import React, {FC, createContext, useState, Dispatch, SetStateAction, useContext} from "react";
+import React, {FC, createContext,  Dispatch, useContext, useReducer} from "react";
+interface CartItem {
+  name: string; price: number,id: number, quantity: number; description: string;
+}
 interface AppStateValue {
   cart:{
-    items: {name: string; price: number,id: number, quantity: number}[]
+    items: CartItem[]
   }
 }
 const defaultStateValue: AppStateValue = {
@@ -11,22 +14,48 @@ const defaultStateValue: AppStateValue = {
 }
 
 export const AppStateContext = createContext(defaultStateValue);
-export const AppSetStateContext = createContext<Dispatch<SetStateAction<AppStateValue>> | undefined>(undefined);
+export const AppDispatchContext = createContext<Dispatch<AddToCartAction> | undefined>(undefined);
 
-export const useSetState = () => {
-  const setState  = useContext(AppSetStateContext);
-  if (!setState) {
-    throw new Error("useSetState was called outside of AppSetStateContext provider")
+interface Action<T> {
+  type: T
+}
+interface AddToCartAction extends Action<"ADD_TO_CART"> {
+  payload:Omit<CartItem,"quantity">;
+}
+const reducer = (state: AppStateValue, action: AddToCartAction) => {
+  const itemToAdd = action.payload
+  if (action.type === "ADD_TO_CART") {
+    const itemExists = state.cart.items.find((item: CartItem) => {
+      return item.id ===itemToAdd.id;
+    })
+    return {
+      ...state, cart: {...state.cart,
+        items: itemExists
+          ? state.cart.items.map((item: CartItem) => {
+            if (item.id === itemExists.id) {
+              return {...item,quantity: item.quantity+1}
+            }
+            return item
+          })
+          : [...state.cart.items, {...itemToAdd, quantity: 1,}]
+      }
+    }
   }
-return setState;
+}
+export const useStateDispatch = () => {
+  const dispatch  = useContext(AppDispatchContext);
+  if (!dispatch) {
+    throw new Error("useSetState was called outside of AppDispatchContext provider")
+  }
+return dispatch;
 }
 const AppStateProvider: FC = ({children}) =>{
-  const [state,setState] = useState(defaultStateValue);
+  const [state,dispatch] = useReducer(reducer, defaultStateValue);
   return (
     <AppStateContext.Provider value={state}>
-      <AppSetStateContext.Provider value={setState}>
+      <AppDispatchContext.Provider value={dispatch}>
         {children}
-      </AppSetStateContext.Provider>
+      </AppDispatchContext.Provider>
     </AppStateContext.Provider>
   )
 }

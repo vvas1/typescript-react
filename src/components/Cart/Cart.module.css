@@ -1,6 +1,6 @@
 .cart {
     display: flex;
-    justify-content: stretch;
+    align-items: center;
     flex-direction: column;
     margin-bottom: 1rem;
     position: relative;
@@ -10,16 +10,14 @@
     margin-top: .5rem;
     position: absolute;
     background-color: white;
-    left: -50%;
+    left: calc(50% - 80px);
 }
 .cart-list,
 .cart-button {
     border-radius: 5px;
 }
 .cart-button-active {
-    background-color: red;
     border: 1px solid red;
-    color: white;
 }
 .cart-button {
     background: transparent;
