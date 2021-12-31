@@ -20,11 +20,15 @@ interface Action<T> {
   type: T
 }
 interface AddToCartAction extends Action<"ADD_TO_CART"> {
-  payload:Omit<CartItem,"quantity">;
+  payload: Omit<CartItem,"quantity">;
 }
-const reducer = (state: AppStateValue, action: AddToCartAction) => {
-  const itemToAdd = action.payload
+interface InitializeCartAction extends Action<"INITIALIZE_CART"> {
+  payload: AppStateValue["cart"];
+}
+const reducer = (state: AppStateValue, action: AddToCartAction | InitializeCartAction  ) => {
+
   if (action.type === "ADD_TO_CART") {
+    const itemToAdd = action.payload
     const itemExists = state.cart.items.find((item: CartItem) => {
       return item.id ===itemToAdd.id;
     })
@@ -40,15 +44,18 @@ const reducer = (state: AppStateValue, action: AddToCartAction) => {
           : [...state.cart.items, {...itemToAdd, quantity: 1,}]
       }
     }
+  }else if (action.type ==="INITIALIZE_CART") {
+    return {...state,cart: action.payload}
   }
+
   return state
 }
 export const useStateDispatch = () => {
   const dispatch  = useContext(AppDispatchContext);
   if (!dispatch) {
-    throw new Error("useSetState was called outside of AppDispatchContext provider")
+    throw new Error("useStateDispatch was called outside of AppDispatchContext provider")
   }
-return dispatch;
+  return dispatch;
 }
 const AppStateProvider: FC = ({children}) =>{
   const [state,dispatch] = useReducer(reducer, defaultStateValue);
