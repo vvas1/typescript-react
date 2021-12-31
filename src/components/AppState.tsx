@@ -1,4 +1,4 @@
-import React, {FC, createContext,  Dispatch, useContext, useReducer} from "react";
+import React, {FC, createContext, Dispatch, useContext, useReducer, useEffect} from "react";
 interface CartItem {
   name: string; price: number,id: number, quantity: number; description: string;
 }
@@ -59,6 +59,16 @@ export const useStateDispatch = () => {
 }
 const AppStateProvider: FC = ({children}) =>{
   const [state,dispatch] = useReducer(reducer, defaultStateValue);
+
+  useEffect(()=>{
+    const cart = JSON.parse(localStorage.getItem("cart")||"");
+    dispatch({type:"INITIALIZE_CART",payload: cart})
+  },[])
+
+  useEffect(()=>{
+    const cart = JSON.stringify(state.cart);
+    localStorage.setItem('cart', cart);
+  },[state.cart])
   return (
     <AppStateContext.Provider value={state}>
       <AppDispatchContext.Provider value={dispatch}>
